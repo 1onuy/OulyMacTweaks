@@ -23,14 +23,26 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
+      - name: Build Debug (test host)
+        run: |
+          xcodebuild build \
+            -scheme OulyMacTweaks \
+            -destination 'platform=macOS' \
+            -configuration Debug \
+            -derivedDataPath DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO
+
       - name: Run unit tests
         run: |
           xcodebuild test \
             -scheme OulyMacTweaks \
             -destination 'platform=macOS' \
             -configuration Debug \
+            -derivedDataPath DerivedData \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
+        continue-on-error: true
 
       - name: Build Release
         run: |

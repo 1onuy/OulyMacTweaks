@@ -18,8 +18,9 @@ final class DiskMonitor: DiskMonitoring {
               let avail = values.volumeAvailableCapacityForImportantUsage else {
             return DiskSnapshot(used: 0, total: 0)
         }
-        let totalBytes = UInt64(total)
-        let usedBytes  = totalBytes - UInt64(max(0, avail))
+        let totalBytes   = UInt64(total)
+        let availClamped = UInt64(min(Int64(totalBytes), max(0, avail)))
+        let usedBytes    = totalBytes - availClamped
         return DiskSnapshot(used: usedBytes, total: totalBytes)
     }
 }

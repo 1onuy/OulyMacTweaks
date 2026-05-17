@@ -1,4 +1,5 @@
 import IOKit
+import Foundation
 
 final class MockBatteryMonitor: BatteryMonitoring {
     private let snap: BatterySnapshot

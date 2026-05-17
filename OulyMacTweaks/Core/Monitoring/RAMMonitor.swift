@@ -1,4 +1,5 @@
 import Darwin
+import Foundation
 
 final class MockRAMMonitor: RAMMonitoring {
     private let snap: RAMSnapshot

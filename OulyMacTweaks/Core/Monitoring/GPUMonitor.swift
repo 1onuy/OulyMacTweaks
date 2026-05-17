@@ -1,4 +1,5 @@
 import IOKit
+import Foundation
 
 final class MockGPUMonitor: GPUMonitoring {
     private let fixedUsage: Double?

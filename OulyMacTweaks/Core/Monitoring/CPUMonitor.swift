@@ -1,4 +1,5 @@
 import Darwin
+import Foundation
 
 final class MockCPUMonitor: CPUMonitoring {
     private let fixedUsage: Double

@@ -7,12 +7,16 @@ final class MockCPUMonitor: CPUMonitoring {
 }
 
 final class CPUMonitor: CPUMonitoring {
+    private let lock = NSLock()
     private var prevUser:   [Double] = []
     private var prevSystem: [Double] = []
     private var prevIdle:   [Double] = []
     private var prevNice:   [Double] = []
 
     func currentUsage() -> Double {
+        lock.lock()
+        defer { lock.unlock() }
+
         var numCPUs: natural_t = 0
         var cpuInfoPtr: processor_info_array_t?
         var numCPUInfo: mach_msg_type_number_t = 0

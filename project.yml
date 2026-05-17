@@ -1,0 +1,65 @@
+name: OulyMacTweaks
+options:
+  bundleIdPrefix: com.oulymac
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "15.4"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    ENABLE_HARDENED_RUNTIME: "NO"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGNING_REQUIRED: "NO"
+    CODE_SIGNING_ALLOWED: "NO"
+
+targets:
+  OulyMacTweaks:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: OulyMacTweaks
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.oulymac.tweaks
+        PRODUCT_NAME: "OulyMac Tweaks"
+        INFOPLIST_FILE: OulyMacTweaks/Resources/Info.plist
+    dependencies:
+      - sdk: IOKit.framework
+      - sdk: SpriteKit.framework
+    entitlements:
+      path: OulyMacTweaks/OulyMacTweaks.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+    scheme:
+      testTargets:
+        - OulyMacTweaksTests
+
+  OulyMacTweaksTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: OulyMacTweaksTests
+    dependencies:
+      - target: OulyMacTweaks
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.oulymac.tweaks.tests
+        SWIFT_VERSION: "5.9"
+
+  OulyMacTweaksUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: OulyMacTweaksUITests
+    dependencies:
+      - target: OulyMacTweaks
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.oulymac.tweaks.uitests
+        SWIFT_VERSION: "5.9"

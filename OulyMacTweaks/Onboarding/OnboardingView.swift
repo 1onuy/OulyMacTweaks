@@ -6,12 +6,18 @@ struct OnboardingView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            TabView(selection: $page) {
-                welcomePage.tag(0)
-                permissionsPage.tag(1)
-                donePage.tag(2)
+            ZStack {
+                welcomePage
+                    .opacity(page == 0 ? 1 : 0)
+                    .allowsHitTesting(page == 0)
+                permissionsPage
+                    .opacity(page == 1 ? 1 : 0)
+                    .allowsHitTesting(page == 1)
+                donePage
+                    .opacity(page == 2 ? 1 : 0)
+                    .allowsHitTesting(page == 2)
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            .animation(.easeInOut(duration: 0.35), value: page)
             .frame(width: 520, height: 380)
 
             pageIndicator

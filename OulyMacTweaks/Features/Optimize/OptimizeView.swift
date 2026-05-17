@@ -24,8 +24,8 @@ struct OptimizeView: View {
             scanningView
         case let .results(ram, cache):
             resultsView(ram: ram, cache: cache)
-        case let .optimizing(ram, cache):
-            optimizingView(ram: ram, cache: cache)
+        case .optimizing:
+            optimizingView()
         case let .done(ramFreed, cacheFreed):
             doneView(ramFreed: ramFreed, cacheFreed: cacheFreed)
         }
@@ -108,7 +108,7 @@ struct OptimizeView: View {
 
     // MARK: - Optimizing
 
-    private func optimizingView(ram: UInt64, cache: UInt64) -> some View {
+    private func optimizingView() -> some View {
         VStack(spacing: 12) {
             ScanResultCard(icon: "memorychip",
                            title: "RAM Pressure",
@@ -160,13 +160,4 @@ struct OptimizeView: View {
         }
     }
 
-    // MARK: - Helpers
-
-    private func formatBytes(_ bytes: UInt64) -> String {
-        let gb = Double(bytes) / 1_073_741_824
-        if gb >= 0.1 { return String(format: "%.1f GB", gb) }
-        let mb = Double(bytes) / 1_048_576
-        if mb >= 1 { return String(format: "%.0f MB", mb) }
-        return "< 1 MB"
-    }
 }

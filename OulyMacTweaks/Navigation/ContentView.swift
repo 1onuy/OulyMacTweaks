@@ -30,7 +30,7 @@ struct ContentView: View {
     private func detailView(for dest: NavDestination?) -> some View {
         switch dest {
         case .dashboard, .none:    DashboardView()
-        case .optimize:            OptimizeStubView()
+        case .optimize:            OptimizeView()
         case .gaming:              GamingStubView()
         case .softwareManager:     SoftwareManagerStubView()
         case .aiAdvisor:           AIAdvisorStubView()

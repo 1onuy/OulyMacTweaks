@@ -46,14 +46,14 @@ final class SystemMonitor {
         self.batMon     = battery
     }
 
-    func startPolling() {
+    @MainActor func startPolling() {
         _ = cpu.currentUsage()   // prime CPU delta
         scheduleTimers()
         pollFast()
         pollSlow()
     }
 
-    func stopPolling() {
+    @MainActor func stopPolling() {
         fastTimer?.invalidate()
         slowTimer?.invalidate()
         fastTimer = nil

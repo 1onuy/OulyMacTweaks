@@ -25,13 +25,23 @@ jobs:
 
       - name: Build Debug (test host)
         run: |
+          set -o pipefail
           xcodebuild build \
             -scheme OulyMacTweaks \
             -destination 'platform=macOS' \
             -configuration Debug \
             -derivedDataPath DerivedData \
             CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO
+            CODE_SIGNING_REQUIRED=NO \
+            2>&1 | tee /tmp/build_debug.log
+
+      - name: Show Swift errors (on failure)
+        if: failure()
+        run: |
+          echo "====== SWIFT COMPILER ERRORS ======"
+          grep -E "\.swift:[0-9]+:[0-9]+: error:" /tmp/build_debug.log || echo "(no error lines matched)"
+          echo "====== SWIFT COMPILER WARNINGS ======"
+          grep -E "\.swift:[0-9]+:[0-9]+: warning:" /tmp/build_debug.log | head -20 || echo "(none)"
 
       - name: Run unit tests
         run: |

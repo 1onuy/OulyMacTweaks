@@ -18,12 +18,11 @@ struct SparklineView: View {
                     )
                     .foregroundStyle(color)
                     .interpolationMethod(.catmullRom)
-                }
-                if let last = data.last {
+
                     AreaMark(
-                        x: .value("t", data.count - 1),
+                        x: .value("t", i),
                         yStart: .value("v", 0),
-                        yEnd: .value("v", last)
+                        yEnd: .value("v", val)
                     )
                     .foregroundStyle(color.opacity(0.15))
                     .interpolationMethod(.catmullRom)

@@ -55,11 +55,11 @@ struct RAMPurger: RAMPurging {
         let pageSize = Int(vm_page_size)
         let pageCount = Int(targetBytes) / pageSize
         for i in 0..<pageCount {
-            let ptr = UnsafeMutableRawPointer(bitPattern: UInt(address) + UInt(i * pageSize))
+            let ptr = UnsafeMutableRawPointer(bitPattern: UInt(address) + UInt(i) * UInt(pageSize))
             ptr?.storeBytes(of: UInt8(0), as: UInt8.self)
         }
 
         vm_deallocate(mach_task_self_, address, targetBytes)
-        return estimated
+        return UInt64(targetBytes)
     }
 }

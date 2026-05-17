@@ -32,8 +32,6 @@ targets:
       - sdk: SpriteKit.framework
     entitlements:
       path: OulyMacTweaks/OulyMacTweaks.entitlements
-      properties:
-        com.apple.security.app-sandbox: false
     scheme:
       testTargets:
         - OulyMacTweaksTests

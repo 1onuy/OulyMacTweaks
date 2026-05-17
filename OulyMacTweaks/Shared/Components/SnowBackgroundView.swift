@@ -3,6 +3,7 @@ import SpriteKit
 
 private final class SnowScene: SKScene {
     override func didMove(to view: SKView) {
+        view.preferredFramesPerSecond = 30
         backgroundColor = .clear
         let emitter = makeEmitter()
         emitter.position = CGPoint(x: frame.midX, y: frame.maxY + 20)
@@ -44,7 +45,6 @@ struct SnowBackgroundView: View {
     private let scene: SnowScene = {
         let s = SnowScene()
         s.scaleMode = .resizeFill
-        s.preferredFramesPerSecond = 30
         return s
     }()
 

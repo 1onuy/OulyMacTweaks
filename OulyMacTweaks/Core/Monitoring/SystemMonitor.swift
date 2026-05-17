@@ -47,6 +47,7 @@ final class SystemMonitor {
     }
 
     @MainActor func startPolling() {
+        guard fastTimer == nil else { return }   // already running — avoid double-scheduling
         _ = cpu.currentUsage()   // prime CPU delta
         scheduleTimers()
         pollFast()

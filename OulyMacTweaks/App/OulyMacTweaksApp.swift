@@ -1,11 +1,19 @@
 import SwiftUI
 
-// Placeholder — replaced in Task 11
 @main
 struct OulyMacTweaksApp: App {
+    @State private var monitor = SystemMonitor()
+
     var body: some Scene {
         WindowGroup {
-            Text("OulyMac Tweaks")
+            ContentView()
+                .environment(monitor)
+                .frame(minWidth: 900, minHeight: 600)
+        }
+        .windowStyle(.hiddenTitleBar)
+        .defaultSize(width: 1100, height: 700)
+        .commands {
+            CommandGroup(replacing: .newItem) {}
         }
     }
 }

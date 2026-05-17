@@ -42,7 +42,3 @@ struct SidebarView: View {
             .foregroundStyle(AppColors.brandPurple)
     }
 }
-
-extension NavDestination: Identifiable {
-    var id: String { rawValue }
-}

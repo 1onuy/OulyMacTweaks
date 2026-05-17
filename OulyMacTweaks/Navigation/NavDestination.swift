@@ -1,5 +1,3 @@
-import Foundation
-
 enum NavDestination: String, CaseIterable, Hashable {
     case dashboard       = "Dashboard"
     case optimize        = "Optimize"
@@ -18,4 +16,8 @@ enum NavDestination: String, CaseIterable, Hashable {
         case .settings:        return "gear"
         }
     }
+}
+
+extension NavDestination: Identifiable {
+    var id: String { rawValue }
 }

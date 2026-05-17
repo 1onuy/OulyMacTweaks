@@ -28,7 +28,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Private
 
     private func setupStatusItem() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSSquareStatusItemLength)
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         guard let button = statusItem?.button else { return }
 
         let gauge = MenuBarGaugeView(frame: NSRect(x: 0, y: 0, width: 22, height: 22))

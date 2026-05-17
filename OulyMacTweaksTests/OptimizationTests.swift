@@ -71,3 +71,66 @@ final class CacheCleanerTests: XCTestCase {
         XCTAssertTrue(FileManager.default.fileExists(atPath: tempDir.path))
     }
 }
+
+@MainActor
+final class OptimizationEngineTests: XCTestCase {
+
+    func test_initialState_isIdle() {
+        let engine = makeEngine()
+        if case .idle = engine.state { } else {
+            XCTFail("Expected idle, got \(engine.state)")
+        }
+    }
+
+    func test_scan_immediatelyTransitionsToScanning() {
+        let engine = makeEngine()
+        engine.scan()
+        if case .scanning = engine.state { } else {
+            XCTFail("Expected scanning after scan()")
+        }
+    }
+
+    func test_scan_completesWithResults() async throws {
+        let engine = makeEngine()
+        engine.scan()
+        try await Task.sleep(nanoseconds: 200_000_000)
+        if case let .results(ram, cache) = engine.state {
+            XCTAssertEqual(ram, 100_000_000)
+            XCTAssertEqual(cache, 2_000_000)
+        } else {
+            XCTFail("Expected results, got \(engine.state)")
+        }
+    }
+
+    func test_optimize_transitionsToOptimizingThenDone() async throws {
+        let engine = makeEngine()
+        engine.state = .results(ram: 100_000_000, cache: 2_000_000)
+        engine.optimize()
+        if case .optimizing = engine.state { } else {
+            XCTFail("Expected optimizing")
+        }
+        try await Task.sleep(nanoseconds: 200_000_000)
+        if case let .done(ramFreed, cacheFreed) = engine.state {
+            XCTAssertEqual(ramFreed, 80_000_000)
+            XCTAssertEqual(cacheFreed, 1_800_000)
+        } else {
+            XCTFail("Expected done, got \(engine.state)")
+        }
+    }
+
+    func test_reset_returnsToIdle() {
+        let engine = makeEngine()
+        engine.state = .done(ramFreed: 100, cacheFreed: 200)
+        engine.reset()
+        if case .idle = engine.state { } else {
+            XCTFail("Expected idle after reset()")
+        }
+    }
+
+    private func makeEngine() -> OptimizationEngine {
+        OptimizationEngine(
+            ramPurger: MockRAMPurger(purgeable: 100_000_000, freed: 80_000_000),
+            cacheCleaner: MockCacheCleaner(scanResult: 2_000_000, cleanResult: 1_800_000)
+        )
+    }
+}
